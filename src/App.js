@@ -1,10 +1,25 @@
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import axios from "axios";
 
 function App() {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+  const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async () => {
+    const response = await axios.get("https://deliveroo-backend1982.herokuapp.com/");
+    setData(response.data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return isLoading ? (
+    <span>En cours de chargement... </span>
+  ) : (
+    <h2>{data.restaurant.name}</h2>
   );
 }
 
